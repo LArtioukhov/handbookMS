@@ -1,0 +1,25 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <option name="RIGHT_MARGIN" value="130" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
+    <ScalaCodeStyleSettings>
+      <option name="SCALAFMT_CONFIG_PATH" value="$USER_HOME$/.scalafmt.conf" />
+      <option name="FORMATTER" value="1" />
+      <option name="USE_SCALADOC2_FORMATTING" value="true" />
+      <option name="TYPE_ANNOTATION_PROTECTED_MEMBER" value="false" />
+      <option name="TYPE_ANNOTATION_EXCLUDE_MEMBER_OF_ANONYMOUS_CLASS" value="true" />
+      <option name="TYPE_ANNOTATION_EXCLUDE_MEMBER_OF_PRIVATE_CLASS" value="true" />
+      <option name="REPLACE_CASE_ARROW_WITH_UNICODE_CHAR" value="true" />
+      <option name="REPLACE_MAP_ARROW_WITH_UNICODE_CHAR" value="true" />
+      <option name="REPLACE_FOR_GENERATOR_ARROW_WITH_UNICODE_CHAR" value="true" />
+      <option name="REPLACE_LAMBDA_WITH_GREEK_LETTER" value="true" />
+    </ScalaCodeStyleSettings>
+    <codeStyleSettings language="HTML">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+  </code_scheme>
+</component>

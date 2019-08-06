@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="sbt: itc:wapnee-data-model_2.12:0.0.3-SNAPSHOT:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/local/itc/wapnee-data-model_2.12/0.0.3-SNAPSHOT/jars/wapnee-data-model_2.12.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/local/itc/wapnee-data-model_2.12/0.0.3-SNAPSHOT/docs/wapnee-data-model_2.12-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/local/itc/wapnee-data-model_2.12/0.0.3-SNAPSHOT/srcs/wapnee-data-model_2.12-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

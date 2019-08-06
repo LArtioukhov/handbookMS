@@ -1,4 +1,4 @@
-package itc
+package itc.handbook
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -8,7 +8,7 @@ import akka.stream.ActorMaterializer
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 
-object handbookMS extends App {
+object structHandbookMS extends App {
   override def main(args: Array[String]): Unit = {
     implicit val system: ActorSystem = ActorSystem("HBMS")
     implicit val materializer: ActorMaterializer = ActorMaterializer()

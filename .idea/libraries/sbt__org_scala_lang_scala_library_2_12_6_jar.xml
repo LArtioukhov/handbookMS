@@ -2,15 +2,15 @@
   <library name="sbt: org.scala-lang:scala-library:2.12.6:jar" type="Scala">
     <properties>
       <compiler-classpath>
-        <root url="file://$USER_HOME$/.sbt/boot/scala-2.12.6/lib/jline.jar" />
-        <root url="file://$USER_HOME$/.sbt/boot/scala-2.12.6/lib/scala-compiler.jar" />
-        <root url="file://$USER_HOME$/.sbt/boot/scala-2.12.6/lib/scala-library.jar" />
-        <root url="file://$USER_HOME$/.sbt/boot/scala-2.12.6/lib/scala-reflect.jar" />
-        <root url="file://$USER_HOME$/.sbt/boot/scala-2.12.6/lib/scala-xml_2.12.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/jline/jline/jars/jline-2.14.6.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang.modules/scala-xml_2.12/bundles/scala-xml_2.12-1.0.6.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.12.6.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.6.jar" />
+        <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.6.jar" />
       </compiler-classpath>
     </properties>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.sbt/boot/scala-2.12.6/lib/scala-library.jar!/" />
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

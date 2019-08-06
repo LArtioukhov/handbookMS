@@ -1,4 +1,4 @@
-package itc
+package itc.handbook
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
