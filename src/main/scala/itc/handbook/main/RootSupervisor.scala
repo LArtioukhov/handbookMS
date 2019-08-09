@@ -8,15 +8,18 @@ import akka.http.scaladsl.Http
 import akka.pattern._
 import akka.stream.ActorMaterializer
 import akka.util.Timeout
-import HandbookMS.configs.AppConfig
+import itc.globals.actorMessages._
+import itc.globals.exceptions.{ErrorAppNotInitialized, ReadConfigException, UndefinedData}
+import itc.handbook.configs.AppConfig
 import itc.handbook.main.HttpInterface
+import itc.handbook.microS.{ActorMicroserviceCompanion, HandbookMS, HandbookMSStatus}
 
 import scala.concurrent.Future.sequence
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.language.postfixOps
 import scala.util._
 
-class RootSupervisor extends Actor with ActorLogging {
+class RootSupervisor (val config: AppConfig) extends Actor with ActorLogging {
 
   import akka.actor.SupervisorStrategy._
   import context._
@@ -29,7 +32,7 @@ class RootSupervisor extends Actor with ActorLogging {
 
   def isOk: Boolean = true
 
-  private[this] def registerAcctorS[CF](companion: ActorMicroserviceCompanion[CF], cfg: CF) = {
+  private[this] def registerActorS[CF](companion: ActorMicroserviceCompanion[CF], cfg: CF) = {
     context.actorOf(companion.props(cfg), companion.serviceName)
   }
 
@@ -47,20 +50,10 @@ class RootSupervisor extends Actor with ActorLogging {
   override def preStart(): Unit = {
     super.preStart()
     // Creation and registration actor services.
-    registerActorS(AdmHMicroS, config)
+    registerActorS(HandbookMS, config)
   }
 
   override def receive: Receive = {
-
-    case GetStatus ⇒
-      val status = if (isOk) "Ok" else "Failure"
-      child(AdmHMicroS.serviceName)
-        .map(_ ? GetStatus)
-        .map(_.map {
-          case msg: AdmHMicroSStatus ⇒ AppStatus(status, config, msg)
-        } pipeTo sender)
-
-    case msg: AdmHCommand ⇒ child(AdmHMicroS.serviceName).foreach(_ forward msg)
 
     case DoStart ⇒
       started = true
@@ -107,6 +100,8 @@ object RootSupervisor {
     TimeUnit.MILLISECONDS
   )
 
+  private val log = akka.event.Logging(system, classOf[RootSupervisor])
+
   def init(): Unit = {
     _config = Try(
       AppConfig(system.settings.config.getConfig(RootSupervisor.appName), system.settings.config.getConfig("db")))
@@ -123,14 +118,20 @@ object RootSupervisor {
     } else {
       _httpInterface = new HttpInterface(_instance)
       (_instance ? DoStart).onComplete {
-
+        case Success(Started) ⇒
+        _bindingFuture = Http().bindAndHandle(_httpInterface.route,
+                                              _config.get.interfaceConfig.host,
+                                              _config.get.interfaceConfig.port)
+        _bindingFuture.onComplete(sB ⇒
+        log.info()
+        )
       }
     }
 
   def stop():Future[Done] =
     if (_instance == null) throw ErrorAppNotInitialized(s"$appName not initialised")
     else {
-      _bindingFuture.flatMap(_.unbind()).onComplete(_ ⇒ CS(system).run(CS.JvmExitReason))
+      _bindingFuture.flatMap(_.unbind()).onComplete(_ ⇒ CoordinatedShutdown(system).run(CoordinatedShutdown.JvmExitReason))
       _instance ? DoStop map { _ ⇒
         Done
       }

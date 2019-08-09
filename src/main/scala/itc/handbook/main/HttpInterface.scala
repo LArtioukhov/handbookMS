@@ -5,10 +5,14 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.headers.Location
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpHeader, HttpResponse, StatusCodes, Uri}
 import akka.http.scaladsl.server.ContentNegotiator.Alternative.ContentType
+import akka.http.scaladsl.server.Directives.{complete, get, path, pathEnd, pathPrefix}
 import akka.http.scaladsl.server.{Directives, Route}
 import akka.http.scaladsl.server.ExceptionHandler.PF
 import akka.util.Timeout
+import itc.globals.actorMessages.GetStatus
 import itc.handbook.codecs.json._
+import akka.pattern._
+import wapnee.dataModel.personFile.incl.Hierarchy
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -49,7 +53,36 @@ class HttpInterface (handbookMS: ActorRef) (implicit val timeout: Timeout, impli
 
   def routeWritePR: Route = ???
 
-  val route: Route = ???
+  //noinspection TypeAnnotation
+  val route =
+    pathPrefix("hbms" / "v01") {
+      path("status") {
+        get {
+          complete{
+            (handbookMS ? GetStatus).mapTo[HandbookStatus]
+          }
+        }
+      } ~
+        pathPrefix("question") {
+          pathEnd {
+            get {
+              complete("/hmbs/v01/question")
+            }
+          } ~
+            pathPrefix("qId") {
+              pathEnd {
+                get {
+                  complete("/hmbs/v01/question/qId")
+                }
+              } ~
+                path("sId") {
+                  get {
+                    complete("/hmbs/v01/question/qId/sId")
+                  }
+                }
+            }
+        }
+    }
 }
 
 object HttpInterface {
@@ -61,6 +94,6 @@ object HttpInterface {
   val notFound = HttpResponse(StatusCodes.NotFound)
   def badRequest(s: String = "") =
     HttpResponse(StatusCodes.BadRequest, entity = HttpEntity(ContentTypes.`text/plain(UTF-8)`, s))
-  def internalError(S: String) =
+  def internalError(s: String) =
     HttpResponse(StatusCodes.InternalServerError, entity = HttpEntity(ContentTypes.`text/plain(UTF-8)`, s))
 }
